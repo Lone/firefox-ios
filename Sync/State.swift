@@ -140,11 +140,6 @@ private let PrefHashedUID = "hashedUID"
 private let PrefEngineConfiguration = "engineConfiguration"
 private let PrefFxADeviceId = "PrefFxADeviceId"
 
-/*
- * Keys for values that originate from prefs set when the account is first established.
- */
-public let PrefDeviceRegistration = "deviceRegistration"
-
 class PrefsBackoffStorage: BackoffStorage {
     let prefs: Prefs
     fileprivate let key = "timestamp"
@@ -406,13 +401,7 @@ open class Scratchpad {
         self.clientGUID = Bytes.generateGUID()
         self.clientName = DeviceInfo.defaultClientName()
 
-        self.fxaDeviceId = {
-            guard let string = prefs.stringForKey(PrefDeviceRegistration) else {
-                return nil
-            }
-            let json = JSON(parseJSON: string)
-            return json["id"].string
-        }() ?? "unknown_fxaDeviceId"
+        self.fxaDeviceId = "unknown_fxaDeviceId"
 
         self.hashedUID = nil
     }
